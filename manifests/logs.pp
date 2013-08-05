@@ -4,8 +4,10 @@ class stack::logs (
 
   $syslog_server                    = false,
   $syslog_server_port               = '5544',
+
   $elasticsearch_server             = false,
   $elasticsearch_server_port        = '9200',
+  $elasticsearch_cluster            = 'logs',
 
   $install_syslog_server            = false,
   $install_logstash                 = false,

@@ -1,6 +1,6 @@
 # File Managed by Puppet
 
-# cluster.name: elasticsearch
+cluster.name: <%= scope.lookupvar('stack::logs::elasticsearch_cluster_name') %>
 
 # node.name: "Franz Kafka"
 # node.master: true
@@ -20,7 +20,7 @@
 
 # plugin.mandatory: mapper-attachments,lang-groovy
 
-# bootstrap.mlockall: true
+bootstrap.mlockall: true
 
 # network.bind_host: 192.168.0.1
 # network.publish_host: 192.168.0.1
@@ -69,4 +69,29 @@
 #monitor.jvm.gc.ConcurrentMarkSweep.warn: 10s
 #monitor.jvm.gc.ConcurrentMarkSweep.info: 5s
 #monitor.jvm.gc.ConcurrentMarkSweep.debug: 2s
+
+# Some settings here are tuned from:
+# http://edgeofsanity.net/article/2012/12/26/elasticsearch-for-logging.html
+# You can provide a custom template file
+
+# Indexing Settings for Writes
+indices.memory.index_buffer_size: 50%
+index.refresh_interval: 30
+index.translog.flush_threshold_ops: 50000
+index.store.compress.stored: true
+ 
+# Search pool
+threadpool.search.type: fixed
+threadpool.search.size: 20
+threadpool.search.queue_size: 100
+ 
+# Bulk pool
+threadpool.bulk.type: fixed
+threadpool.bulk.size: 60
+threadpool.bulk.queue_size: 300
+ 
+# Index pool
+threadpool.index.type: fixed
+threadpool.index.size: 20
+threadpool.index.queue_size: 100
 
