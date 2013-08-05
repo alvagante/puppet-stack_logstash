@@ -16,7 +16,7 @@ class stack::logs (
   $install_syslog_server            = false,
   $install_logstash                 = false,
   $install_elasticsearch            = false,
-  $install_kikana                   = false,
+  $install_kibana                   = false,
 
   $install_graylog2                 = false,
   $install_graylog2_webinterface    = false,
