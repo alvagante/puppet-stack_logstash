@@ -1,12 +1,12 @@
 # File Managed by Pyppet
 input {
   tcp {
-    port => <%= scope.lookupvar('stack::logs::syslog_server_port') %>
-    type => syslog
+    port => "<%= scope.lookupvar('stack::logs::syslog_server_port') %>"
+    type => "syslog"
   }
   udp {
-    port => 5000
-    type => syslog
+    port => "5000"
+    type => "syslog"
   }
 }
 
@@ -39,7 +39,7 @@ filter {
 output {
   # Example just to output to elasticsearch
   elasticsearch {
-    bind_host => <%= scope.lookupvar('stack::logs::elasticsearch_server') %>
-    bind_port => <%= scope.lookupvar('stack::logs::elasticsearch_server_port') %>
+    host => "<%= scope.lookupvar('stack::logs::elasticsearch_server') %>"
+    port => "<%= scope.lookupvar('stack::logs::elasticsearch_server_port') %>"
   }
 }

@@ -2,12 +2,6 @@ class stack::logs (
 
   $ensure                           = 'present',
 
-  $monitor                          = false,
-  $monitor_tool                     = 'puppi',
-
-  $firewall                         = false,
-  $firewall_tool                    = 'iptables',
-
   $syslog_server                    = false,
   $syslog_server_port               = '5544',
   $elasticsearch_server             = false,
@@ -30,7 +24,7 @@ class stack::logs (
   ) {
 
   if $syslog_server
-  or $install_syslog_server {
+  and $install_syslog_server {
     if $syslog_config_template {
       rsyslog::config { 'logstash_stack':
         content  => template($syslog_config_template),
@@ -39,10 +33,6 @@ class stack::logs (
     class { 'rsyslog':
       syslog_server => $syslog_server,
       mode          => $graylog_syslog_run_mode,
-      monitor       => $monitor,
-      monitor_tool  => $monitor_tool,
-      firewall      => $firewall,
-      firewall_tool => $firewall_tool,
     }
   }
 
@@ -51,10 +41,6 @@ class stack::logs (
       run_mode      => $logstash_run_mode,
       create_user   => $user_create,
       template      => $logstash_config_template,
-      monitor       => $monitor,
-      monitor_tool  => $monitor_tool,
-      firewall      => $firewall,
-      firewall_tool => $firewall_tool,
     }
   }
 
@@ -62,10 +48,6 @@ class stack::logs (
     class { 'elasticsearch':
       create_user   => $user_create,
       template      => $elasticsearch_config_template,
-      monitor       => $monitor,
-      monitor_tool  => $monitor_tool,
-      firewall      => $firewall,
-      firewall_tool => $firewall_tool,
     }
   }
 
@@ -83,10 +65,6 @@ class stack::logs (
       webinterface_install  => $install_graylog_webinterface,
       create_user           => $user_create,
       template              => $graylog2_config_template,
-      monitor               => $monitor,
-      monitor_tool          => $monitor_tool,
-      firewall              => $firewall,
-      firewall_tool         => $firewall_tool,
     }
   }
 
