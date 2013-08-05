@@ -1,0 +1,45 @@
+# File Managed by Pyppet
+input {
+  tcp {
+    port => <%= scope.lookupvar('stack::logs::syslog_server_port') %>
+    type => syslog
+  }
+  udp {
+    port => 5000
+    type => syslog
+  }
+}
+
+filter {
+  grok {
+      type => "syslog"
+      pattern => [ "<%%{POSINT:syslog_pri}>%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{PROG:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" ]
+      add_field => [ "received_at", "%{@timestamp}" ]
+      add_field => [ "received_from", "%{@source_host}" ]
+  }
+  syslog_pri {
+      type => "syslog"
+  }
+  date {
+      type => "syslog"
+      syslog_timestamp => [ "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+  }
+  mutate {
+      type => "syslog"
+      exclude_tags => "_grokparsefailure"
+      replace => [ "@source_host", "%{syslog_hostname}" ]
+      replace => [ "@message", "%{syslog_message}" ]
+  }
+  mutate {
+      type => "syslog"
+      remove => [ "syslog_hostname", "syslog_message", "syslog_timestamp" ]
+  }
+}
+
+output {
+  # Example just to output to elasticsearch
+  elasticsearch {
+    bind_host => <%= scope.lookupvar('stack::logs::elasticsearch_server') %>
+    bind_port => <%= scope.lookupvar('stack::logs::elasticsearch_server_port') %>
+  }
+}
