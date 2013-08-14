@@ -5,9 +5,11 @@ class stack::logs (
   $syslog_server                    = false,
   $syslog_server_port               = '5544',
 
+  $elasticsearch_protocol           = 'http',
   $elasticsearch_server             = false,
   $elasticsearch_server_port        = '9200',
   $elasticsearch_cluster            = 'logs',
+  $elasticsearch_java_opts          = '-Xmx2g -Xms1g',
 
   $install_syslog_server            = false,
   $install_logstash                 = false,
@@ -49,13 +51,14 @@ class stack::logs (
   if $install_elasticsearch {
     class { 'elasticsearch':
       create_user   => $user_create,
+      java_opts     => $elasticsearch_java_opts,
       template      => $elasticsearch_config_template,
     }
   }
 
   if $install_kibana {
     class { 'kibana':
-      elasticsearch_url => "http://${elasticsearch_server}:${elasticsearch_server_port}",
+      elasticsearch_url => "${elasticsearch_protocol}://${elasticsearch_server}:${elasticsearch_server_port}",
       file_template     => $kibana_config_template,
       webserver         => 'apache',
     }
