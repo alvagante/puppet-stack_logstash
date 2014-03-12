@@ -1,0 +1,6 @@
+# Apply to logstash indexers
+---
+  stack::logstash::logstash_install: true
+
+  # Usage sample for a custom logstash.conf template (from a custom site module)
+  stack::logstash::logstash_config_template: 'site/stack/logstash/logstash.conf.erb'

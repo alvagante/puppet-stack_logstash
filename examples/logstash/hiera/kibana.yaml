@@ -1,0 +1,4 @@
+# Apply to a server where to install the Kibana frontent
+---
+  stack::logstash::kibana_install: true
+

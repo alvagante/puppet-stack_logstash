@@ -1,0 +1,19 @@
+# General settings
+# Apply to all the nodes that forward logs to Logstash
+---
+  stack::logstash::syslog_install: true
+  stack::logstash::syslog_server: "10.42.42.15"
+  stack::logstash::syslog_server_port: "12345"    # Default 5544
+  stack::logstash::syslog_files: "auth.*"  # Default *.*
+
+  # This parameter is needed for the nodes that install logstash and kibana
+  # Placed here for convenience.
+  # If not defined, the stack::logstash class tries to autodetect it querying PuppetDB
+  stack::logstash::elasticsearch_server: "10.42.42.151"
+
+  # Provide custom monitoring class
+  # stack::logstash::monitor_class: '::site::stack::logstash::monitor'
+
+  # Disable monitoring and firewalling
+  stack::logstash::monitor_class: false
+  stack::logstash::firewall_class: false

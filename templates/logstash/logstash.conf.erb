@@ -1,11 +1,11 @@
 # File Managed by Pyppet
 input {
   tcp {
-    port => "<%= scope.lookupvar('stack::logs::syslog_server_port') %>"
+    port => "<%= scope.lookupvar('stack::logstash::syslog_server_port') %>"
     type => "syslog"
   }
   udp {
-    port => "5000"
+  port => "<%= scope.lookupvar('stack::logstash::syslog_server_port') %>"
     type => "syslog"
   }
 }
@@ -39,7 +39,7 @@ filter {
 output {
   elasticsearch_http {
     type => "syslog"
-    host => "<%= scope.lookupvar('stack::logs::elasticsearch_server') %>"
-    port => "<%= scope.lookupvar('stack::logs::elasticsearch_server_port') %>"
+    host => "<%= scope.lookupvar('stack::logstash::real_elasticsearch_server') %>"
+    port => "<%= scope.lookupvar('stack::logstash::elasticsearch_server_port') %>"
   }
 }
