@@ -17,6 +17,7 @@ class stack::logstash (
   $elasticsearch_server_port        = '9200',
   $elasticsearch_cluster_name       = 'logs',
   $elasticsearch_java_heap_size     = '1024',
+  $elasticsearch_version            = '1.0.1',
 
   $logstash_install                 = false,
   $logstash_config_template         = 'stack/logstash/logstash.conf.erb',
@@ -61,6 +62,7 @@ class stack::logstash (
   if $elasticsearch_install {
     class { '::elasticsearch':
       create_user    => $user_create,
+      version        => $elasticsearch_version,
       java_heap_size => $elasticsearch_java_heap_size,
       template       => $elasticsearch_config_template,
     }
