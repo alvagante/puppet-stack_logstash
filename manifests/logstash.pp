@@ -23,7 +23,7 @@ class stack::logstash (
   $logstash_config_hash             = { },
 
   $kibana_install                   = false,
-  $kibana_config_template           = 'stack/logstash/config.js.erb',
+  $kibana_config_template           = undef,
   $kibana_config_hash               = { },
 
   $monitor_class                    = '::stack::logstash::monitor',
