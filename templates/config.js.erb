@@ -2,7 +2,7 @@
 
 var config = new Settings(
 {
-  elasticsearch:    "<%= scope.lookupvar('stack::logstash::elasticsearch_protocol') %>://<%= scope.lookupvar('stack::logstash::real_elasticsearch_server') %>:<%= scope.lookupvar('stack::logstash::elasticsearch_server_port') %>",
+  elasticsearch:    "<%= scope.lookupvar('stack_logstash::elasticsearch_protocol') %>://<%= scope.lookupvar('stack_logstash::real_elasticsearch_server') %>:<%= scope.lookupvar('stack_logstash::elasticsearch_server_port') %>",
   kibana_index:     "kibana-int",
   modules:          ['histogram','map','pie','table','filtering',
                     'timepicker','text','fields','hits','dashcontrol',

@@ -1,0 +1,13 @@
+# General settings
+# Apply to all the nodes that forward logs to Logstash
+---
+  stack_logstash::syslog_server: "10.42.42.15"
+  stack_logstash::syslog_server_port: "12345"    # Default 5544
+  stack_logstash::syslog_files: "auth.*"  # Default *.*
+
+  # To override the autocalculated value, uncomment below
+  # stack_logstash::elasticsearch_server: "10.42.42.151"
+
+  # Provide custom monitoring class
+  # stack_logstash::monitor_class: '::site::stack_logstash::monitor'
+

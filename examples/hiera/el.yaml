@@ -1,0 +1,5 @@
+# Apply to elastisearch servers
+---
+  stack_logstash::elasticsearch_install: true
+  stack_logstash::elasticsearch_java_heap_size: '4096'
+
