@@ -1,9 +1,17 @@
-class stack_logstash::kibana {
+class stack_logstash::kibana (
+  $kibana_version = '3.1.1',
+  ) {
 
   class { '::kibana':
-    elasticsearch_url => "${elasticsearch_protocol}://${elasticsearch_server}:${elasticsearch_server_port}",
-    file_template     => $kibana_config_template,
-    webserver         => 'apache',
+    version           => $kibana_version,
+#    elasticsearch_url => "${::stack_logstash::elasticsearch_protocol}://${::stack_logstash::real_elasticsearch_server}:${::stack_logstash::elasticsearch_server_port}",
+    file_template     => $::stack_logstash::kibana_config_template,
+#    webserver         => 'nginx',
   }
+
+#  tp::install { $::stack_logstash::kibana_webserver: }
+#  tp::conf { "${::stack_logstash::kibana_webserver}::kibana":
+#    template => $::stack_logstash::real_kibana_webserver_template,
+#  }
 
 }
