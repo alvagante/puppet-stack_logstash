@@ -9,9 +9,10 @@ class stack_logstash::kibana (
 #    webserver         => 'nginx',
   }
 
-#  tp::install { $::stack_logstash::kibana_webserver: }
-#  tp::conf { "${::stack_logstash::kibana_webserver}::kibana":
-#    template => $::stack_logstash::real_kibana_webserver_template,
-#  }
-
+  if $::stack_logstash::kibana_webserver {
+    tp::install { $::stack_logstash::kibana_webserver: }
+    tp::conf { "${::stack_logstash::kibana_webserver}::conf.d/kibana.conf":
+      template => $::stack_logstash::real_kibana_webserver_config_template,
+    }
+  }
 }

@@ -4,7 +4,7 @@ class stack_logstash (
 
   $repo_class                       = '::stack_logstash::repo',
 
-  $syslog_class                     = undef,
+  $syslog_class                     = '::stack_logstash::syslog::rsyslog',
   $syslog_config_template           = 'stack_logstash/syslog.conf.erb',
   $syslog_config_hash               = { },
   $syslog_server                    = false,
@@ -27,8 +27,11 @@ class stack_logstash (
   $logstash_config_hash             = { },
 
   $kibana_class                     = undef,
+  $kibana_url                       = "kibana.${::domain}",
   $kibana_config_template           = undef,
   $kibana_config_hash               = { },
+  $kibana_webserver                 = 'nginx',
+  $kibana_webserver_config_template = undef,
 
   $monitor_class                    = undef,
   $firewall_class                   = undef,
@@ -46,6 +49,11 @@ class stack_logstash (
     # TODO: Fix query
     ''      => query_nodes('Class[elasticsearch]',ipaddress),
     default => $elasticsearch_server,
+  }
+
+  $real_kibana_webserver_config_template = $kibana_webserver_config_template ? {
+    undef    => "stack_logstash/kibana/kibana.conf-${kibana_webserver}",
+    default  => $kibana_webserver_config_template,
   }
 
   if $repo_class {

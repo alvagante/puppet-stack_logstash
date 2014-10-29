@@ -1,0 +1,11 @@
+server {
+
+    listen       80;
+    server_name  <%= scope.lookupvar('stack_logstash::kibana_url') %>;
+
+    location / {
+        root   /opt/kibana;
+        index  index.html index.htm;
+    }
+
+}

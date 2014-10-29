@@ -9,25 +9,27 @@ class stack_logstash::repo (
   $logstash_version      = '1.4',
   ) {
 
-  # Elasticsearch keys
-  case $::osfamily {
-    'RedHat': {
-       exec { "rpmkey_add_elasticsearch":
-         command     => 'rpm --import http://packages.elasticsearch.org/GPG-KEY-elasticsearch',
-         refreshonly => true,
-         path        => '/sbin:/bin:/usr/sbin:/usr/bin',
-       }
-    }
-    'Debian': {
-      apt::key { "elasticsearch":
-        key         => 'D88E42B4',
-        key_source  => 'http://packages.elasticsearch.org/GPG-KEY-elasticsearch',
+  if $::stack_logstash::elasticsearch_class
+  or $::stack_logstash::logstash_class {
+    # Elasticsearch keys
+    case $::osfamily {
+      'RedHat': {
+         exec { "rpmkey_add_elasticsearch":
+           command     => 'rpm --import http://packages.elasticsearch.org/GPG-KEY-elasticsearch',
+           refreshonly => true,
+           path        => '/sbin:/bin:/usr/sbin:/usr/bin',
+         }
+      }
+      'Debian': {
+        apt::key { "elasticsearch":
+          key         => 'D88E42B4',
+          key_source  => 'http://packages.elasticsearch.org/GPG-KEY-elasticsearch',
+        }
+      }
+      default: {
       }
     }
-    default: {
-    }
   }
-
 
   # Elasticsearch repo
   if $::stack_logstash::elasticsearch_class {
