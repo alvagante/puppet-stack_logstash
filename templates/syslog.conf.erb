@@ -1,2 +1,5 @@
 # File Managed by Puppet
+
+module(load="imfile" PollingInterval="10")
+
 *.*     @@<%= scope.lookupvar('::stack_logstash::syslog_server') %>:<%= scope.lookupvar('::stack_logstash::syslog_server_port') %>

@@ -5,10 +5,42 @@
 # The apt setup requires PuppetLabs' apt module
 #
 class stack_logstash::repo (
+  $rsyslog_version       = '8',
   $elasticsearch_version = '1.3',
   $logstash_version      = '1.4',
   ) {
 
+  # Rsyslog repo
+  if $::stack_logstash::syslog_class == '::stack_logstash::syslog::rsyslog' {
+    case $::operatingsystem {
+      'RedHat': {
+         yumrepo { "Adiscom Rsyslog v${rsyslog_version}-stable for CentOS-\$releasever-\$basearch":
+           descr          => "Adiscom Rsyslog v${rsyslog_version}-stable for CentOS-\$releasever-\$basearch",
+           baseurl        => "http://rpms.adiscon.com/v${rsyslog_version}-stable/epel-\$releasever/\$basearch",
+           enabled        => 1,
+           gpgcheck       => 0,
+           protect        => 1,
+         }
+      }
+      'Debian': {
+        apt::source { "rsyslog-v${rsyslog_version}":
+          location    => "http://debian.adiscon.com/v${rsyslog_version}-stable",
+          repos       => ' ',
+          release     => "${::lsbdistcodename}/",
+          include_src => false,
+          key         => 'AEF0CF8E',
+        }
+      }
+      'Ubuntu': {
+        apt::ppa { "ppa:adiscon/v${rsyslog_version}-stable": }
+      }
+      default: {
+      }
+    }
+  }
+
+
+  # Keys for ElasticSearch and Logstash
   if $::stack_logstash::elasticsearch_class
   or $::stack_logstash::logstash_class {
     # Elasticsearch keys
