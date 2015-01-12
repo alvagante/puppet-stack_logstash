@@ -1,10 +1,15 @@
-class stack_logstash::syslog::rsyslog {
+class stack_logstash::syslog::rsyslog (
+  $config_template           = 'stack_logstash/syslog/rsyslog.conf.erb',
+  $options_hash              = { },
+  $syslog_files              = '*.*',
+) {
 
   tp::install { 'rsyslog': }
 
-  if $::stack_logstash::syslog_config_template {
+  if $config_template
+  and $config_template != '' {
     tp::conf { 'rsyslog::00_logstash.conf':
-      template => $::stack_logstash::syslog_config_template,
+      template => $config_template,
     }
   }
 

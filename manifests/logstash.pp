@@ -1,11 +1,15 @@
 class stack_logstash::logstash {
+  $config_template           = 'stack_logstash/logstash/logstash.conf.erb',
+  $options_hash               = { },
+) {
 
-  class { '::logstash':
-    install_contrib => true,
-  }
+  tp::install { 'logstash': }
 
-  logstash::configfile { 'main':
-    content => template($::stack_logstash::logstash_config_template),
+  if $config_template
+  and $config_template != '' {
+    tp::conf { 'logstash':
+      template => $config_template,
+    }
   }
 
 }

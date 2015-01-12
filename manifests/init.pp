@@ -5,33 +5,17 @@ class stack_logstash (
   $repo_class                       = '::stack_logstash::repo',
 
   $syslog_class                     = '::stack_logstash::syslog::rsyslog',
-  $syslog_config_template           = 'stack_logstash/syslog.conf.erb',
-  $syslog_config_hash               = { },
   $syslog_server                    = false,
-  $syslog_files                     = '*.*',
   $syslog_server_port               = '5544',
 
   $elasticsearch_class              = undef,
-  $elasticsearch_config_template    = 'stack_logstash/elasticsearch.yml.erb',
-  $elasticsearch_config_hash        = { },
-  $elasticsearch_instances_hash     = { 'el01' => { ensure => present } },
   $elasticsearch_protocol           = 'http',
   $elasticsearch_server             = '',
   $elasticsearch_server_port        = '9200',
-  $elasticsearch_cluster_name       = 'logs',
-  $elasticsearch_java_heap_size     = '1024',
-  $elasticsearch_version            = '1.0.1',
 
   $logstash_class                   = undef,
-  $logstash_config_template         = 'stack_logstash/logstash.conf.erb',
-  $logstash_config_hash             = { },
 
   $kibana_class                     = undef,
-  $kibana_url                       = "kibana.${::domain}",
-  $kibana_config_template           = undef,
-  $kibana_config_hash               = { },
-  $kibana_webserver                 = 'nginx',
-  $kibana_webserver_config_template = undef,
 
   $monitor_class                    = undef,
   $firewall_class                   = undef,
@@ -40,8 +24,8 @@ class stack_logstash (
 
   $repo_class_require = $repo_class ? {
     ''        => undef,
-    default   => undef,
-    # default   => "Class['${repo_class}']",
+    undef     => undef,
+    default   => Class[$repo_class],
   }
 
   $real_elasticsearch_server = $elasticsearch_server ? {
@@ -49,11 +33,6 @@ class stack_logstash (
     # TODO: Fix query
     ''      => query_nodes('Class[elasticsearch]',ipaddress),
     default => $elasticsearch_server,
-  }
-
-  $real_kibana_webserver_config_template = $kibana_webserver_config_template ? {
-    undef    => "stack_logstash/kibana/kibana.conf-${kibana_webserver}",
-    default  => $kibana_webserver_config_template,
   }
 
   if $repo_class {

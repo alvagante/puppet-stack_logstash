@@ -1,7 +1,7 @@
 server {
 
     listen       80;
-    server_name  <%= scope.lookupvar('stack_logstash::kibana_url') %>;
+    server_name  <%= scope.lookupvar('stack_logstash::kibana::url') %>;
 
     location / {
         root   /opt/kibana;

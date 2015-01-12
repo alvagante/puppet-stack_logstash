@@ -1,12 +1,14 @@
-class stack_logstash::elasticsearch {
+class stack_logstash::elasticsearch (
+  $config_template    = 'stack_logstash/elasticsearch/elasticsearch.yml.erb',
+  $options_hash       = { },
+) }
 
-  class { '::elasticsearch':
-#    create_user    => $user_create,
-#    version        => $elasticsearch_version,
-#    java_heap_size => $elasticsearch_java_heap_size,
-#    template       => $elasticsearch_config_template,
+  tp::install { 'elasticsearch': }
+
+  if $config_template
+  and $config_template != '' {
+    tp::conf { 'elasticsearch':
+      template => $config_template,
+    }
   }
-
-  create_resources('::elasticsearch::instance', $::stack_logstash::elasticsearch_instances_hash)
-
 }
