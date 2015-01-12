@@ -1,7 +1,7 @@
 class stack_logstash::elasticsearch (
   $config_template    = 'stack_logstash/elasticsearch/elasticsearch.yml.erb',
   $options_hash       = { },
-) }
+) {
 
   tp::install { 'elasticsearch': }
 
