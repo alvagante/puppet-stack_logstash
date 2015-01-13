@@ -3,12 +3,21 @@ class stack_logstash::elasticsearch (
   $options_hash       = { },
 ) {
 
+  $default_options = {
+    'network.host'           => $::ipaddress,
+    'http.port'              => $::stack_logstash::elasticsearch_server_port,
+    'http.cors.enabled'      => 'true',
+  }
+  $options=merge($default_options , $options_hash)
+
   tp::install { 'elasticsearch': }
 
   if $config_template
   and $config_template != '' {
     tp::conf { 'elasticsearch':
-      template => $config_template,
+      template     => $config_template,
+      options_hash => $options,
+      require      => Tp::Install['elasticsearch'],
     }
   }
 }

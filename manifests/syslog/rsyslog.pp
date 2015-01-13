@@ -2,7 +2,42 @@ class stack_logstash::syslog::rsyslog (
   $config_template           = 'stack_logstash/syslog/rsyslog.conf.erb',
   $options_hash              = { },
   $syslog_files              = '*.*',
+  $version                   = '8',
+  $use_adiscom_repo          = true,
 ) {
+
+  # Rsyslog repo
+  if $use_adiscom_repo == true {
+    case $::operatingsystem {
+      'RedHat': {
+        yumrepo { "Adiscom Rsyslog v${version}-stable for CentOS-\$releasever-\$basearch":
+          descr          => "Adiscom Rsyslog v${version}-stable for CentOS-\$releasever-\$basearch",
+          baseurl        => "http://rpms.adiscon.com/v${version}-stable/epel-\$releasever/\$basearch",
+          enabled        => 1,
+          gpgcheck       => 0,
+          protect        => 1,
+          before         => Tp::Install['rsyslog'],
+        }
+      }
+      'Debian': {
+        apt::source { "rsyslog-v${version}":
+          location    => "http://debian.adiscon.com/v${version}-stable",
+          repos       => ' ',
+          release     => "${::lsbdistcodename}/",
+          include_src => false,
+          key         => 'AEF0CF8E',
+          before         => Tp::Install['rsyslog'],
+        }
+      }
+      'Ubuntu': {
+        apt::ppa { "ppa:adiscon/v${version}-stable":
+          before         => Tp::Install['rsyslog'],
+        }
+      }
+      default: {
+      }
+    }
+  }
 
   tp::install { 'rsyslog': }
 

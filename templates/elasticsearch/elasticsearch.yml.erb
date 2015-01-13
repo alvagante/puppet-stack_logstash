@@ -1,74 +1,10 @@
 # File Managed by Puppet
 
-cluster.name: <%= scope.lookupvar('stack_logstash::elasticsearch_cluster_name') %>
-
-# node.name: "Franz Kafka"
-# node.master: true
-# node.data: true
-# node.rack: rack314
-# node.max_local_storage_nodes: 1
-
-# index.number_of_shards: 5
-# index.number_of_replicas: 1
-
-# path.conf: /path/to/conf
-# path.data: /path/to/data
-# path.data: /path/to/data1,/path/to/data2
-# path.work: /path/to/work
-# path.logs: /path/to/logs
-# path.plugins: /path/to/plugins
-
-# plugin.mandatory: mapper-attachments,lang-groovy
-
 bootstrap.mlockall: true
 
-# network.bind_host: 192.168.0.1
-# network.publish_host: 192.168.0.1
-# network.host: 192.168.0.1
-
-# transport.tcp.port: 9300
-# transport.tcp.compress: true
-# http.port: 9200
-# http.max_content_length: 100mb
-# http.enabled: false
-
-# gateway.recover_after_nodes: 1
-# gateway.recover_after_time: 5m
-# gateway.expected_nodes: 2
-
-# cluster.routing.allocation.node_initial_primaries_recoveries: 4
-# cluster.routing.allocation.node_concurrent_recoveries: 2
-# indices.recovery.max_size_per_sec: 0
-# indices.recovery.concurrent_streams: 5
-
-
-# discovery.zen.minimum_master_nodes: 1
-# discovery.zen.ping.timeout: 3s
-# discovery.zen.ping.multicast.enabled: false
-# discovery.zen.ping.unicast.hosts: ["host1", "host2:port", "host3[portX-portY]"]
-
-#index.search.slowlog.threshold.query.warn: 10s
-#index.search.slowlog.threshold.query.info: 5s
-#index.search.slowlog.threshold.query.debug: 2s
-#index.search.slowlog.threshold.query.trace: 500ms
-
-#index.search.slowlog.threshold.fetch.warn: 1s
-#index.search.slowlog.threshold.fetch.info: 800ms
-#index.search.slowlog.threshold.fetch.debug: 500ms
-#index.search.slowlog.threshold.fetch.trace: 200ms
-
-#index.indexing.slowlog.threshold.index.warn: 10s
-#index.indexing.slowlog.threshold.index.info: 5s
-#index.indexing.slowlog.threshold.index.debug: 2s
-#index.indexing.slowlog.threshold.index.trace: 500ms
-
-#monitor.jvm.gc.ParNew.warn: 1000ms
-#monitor.jvm.gc.ParNew.info: 700ms
-#monitor.jvm.gc.ParNew.debug: 400ms
-
-#monitor.jvm.gc.ConcurrentMarkSweep.warn: 10s
-#monitor.jvm.gc.ConcurrentMarkSweep.info: 5s
-#monitor.jvm.gc.ConcurrentMarkSweep.debug: 2s
+network.host: <%= @options_hash['network.host'] %>
+http.port: <%= @options_hash['http.port'] %>
+http.cors.enabled: <%= @options_hash['http.cors.enabled'] %>
 
 # Some settings here are tuned from:
 # http://edgeofsanity.net/article/2012/12/26/elasticsearch-for-logging.html

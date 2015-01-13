@@ -2,7 +2,7 @@
 #
 class stack_logstash (
 
-  $repo_class                       = '::stack_logstash::repo',
+  $logs_class                       = '::stack_logstash::logs',
 
   $syslog_class                     = '::stack_logstash::syslog::rsyslog',
   $syslog_server                    = false,
@@ -22,21 +22,15 @@ class stack_logstash (
 
   ) {
 
-  $repo_class_require = $repo_class ? {
-    ''        => undef,
-    undef     => undef,
-    default   => Class[$repo_class],
-  }
-
   $real_elasticsearch_server = $elasticsearch_server ? {
     # query_nodes('Class[elasticsearch]{tags=stack_logstash}',ipaddress), #
     # TODO: Fix query
-    ''      => query_nodes('Class[elasticsearch]',ipaddress),
+    ''      => query_nodes(Class[stack_logstash::elasticsearch],ipaddress),
     default => $elasticsearch_server,
   }
 
-  if $repo_class {
-    class { $repo_class: }
+  if $logs_class {
+    class { $logs_class: }
   }
 
   if $syslog_class {
