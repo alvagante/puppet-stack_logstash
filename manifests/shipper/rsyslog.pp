@@ -1,5 +1,5 @@
-class stack_logstash::syslog::rsyslog (
-  $config_template           = 'stack_logstash/syslog/rsyslog.conf.erb',
+class stack_logstash::shipper::rsyslog (
+  $config_template           = 'stack_logstash/shipper/rsyslog.conf.erb',
   $options_hash              = { },
   $syslog_files              = '*.*',
   $version                   = '8',

@@ -1,6 +1,6 @@
-s|stack_logstash::syslog_config_template|stack_logstash::syslog::rsyslog::config_template|g
-s|stack_logstash::syslog_config_hash|stack_logstash::syslog::rsyslog::options_hash|g
-s|stack_logstash::syslog_files|stack_logstash::syslog::rsyslog::syslog_files|g
+s|stack_logstash::syslog_config_template|stack_logstash::shipper::rsyslog::config_template|g
+s|stack_logstash::syslog_config_hash|stack_logstash::shipper::rsyslog::options_hash|g
+s|stack_logstash::syslog_files|stack_logstash::shipper::rsyslog::syslog_files|g
 
 s|stack_logstash::elasticsearch_config_template|stack_logstash::elasticsearch::config_template|g
 s|stack_logstash::elasticsearch_config_hash|stack_logstash::elasticsearch::options_hash|g

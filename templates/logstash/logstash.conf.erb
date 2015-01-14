@@ -32,7 +32,7 @@ filter {
 
 output {
   elasticsearch_http {
-    host => <%= scope.lookupvar('::stack_logstash::real_elasticsearch_server').to_a %>
+    host => <%= scope.lookupvar('::stack_logstash::elasticsearch_server').to_a %>
     port => "<%= scope.lookupvar('::stack_logstash::elasticsearch_server_port') %>"
   }
 }

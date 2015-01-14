@@ -1,11 +1,11 @@
-# Class stack_logstash
+# Class stack_logstash 
 #
 class stack_logstash (
 
-  $logs_class                       = '::stack_logstash::logs',
+  $logs_define                      = '::stack_logstash::log',
 
-  $syslog_class                     = '::stack_logstash::syslog::rsyslog',
-  $syslog_server                    = false,
+  $shipper_class                    = '::stack_logstash::shipper::rsyslog',
+  $syslog_server                    = '',
   $syslog_server_port               = '5544',
 
   $elasticsearch_class              = undef,
@@ -22,37 +22,21 @@ class stack_logstash (
 
   ) {
 
-  $real_elasticsearch_server = $elasticsearch_server ? {
-    # query_nodes('Class[elasticsearch]{tags=stack_logstash}',ipaddress), #
-    # TODO: Fix query
-    ''      => query_nodes(Class[stack_logstash::elasticsearch],ipaddress),
-    default => $elasticsearch_server,
-  }
 
-  if $logs_class {
-    class { $logs_class: }
-  }
-
-  if $syslog_class {
-    include $syslog_class
+  if $shipper_class {
+    include $shipper_class
   }
 
   if $logstash_class {
-    class { $logstash_class:
-      require => $repo_class_require,
-    }
+    include $logstash_class
   }
 
   if $elasticsearch_class {
-    class { $elasticsearch_class:
-      require => $repo_class_require,
-    }
+    include $elasticsearch_class
   }
 
   if $kibana_class {
-    class { $kibana_class:
-      require => $repo_class_require,
-    }
+    include $kibana_class
   }
 
   if $monitor_class {
@@ -62,5 +46,9 @@ class stack_logstash (
   if $firewall_class {
     include $firewall_class
   }
+
+  $logs = hiera_hash('stack_logstash::logs', {})
+  validate_hash($logs)
+  create_resources($logs_define, $logs)
 
 }
