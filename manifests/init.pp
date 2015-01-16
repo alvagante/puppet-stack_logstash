@@ -10,7 +10,7 @@ class stack_logstash (
 
   $elasticsearch_class              = undef,
   $elasticsearch_protocol           = 'http',
-  $elasticsearch_server             = '',
+  $elasticsearch_server             = [ ],
   $elasticsearch_server_port        = '9200',
 
   $logstash_class                   = undef,
@@ -22,6 +22,7 @@ class stack_logstash (
 
   ) {
 
+  $array_elasticsearch_server=any2array($elasticsearch_server)
 
   if $shipper_class {
     include $shipper_class
