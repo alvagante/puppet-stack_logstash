@@ -17,7 +17,6 @@ class stack_logstash::elasticsearch (
     tp::conf { 'elasticsearch':
       template     => $config_template,
       options_hash => $options,
-      require      => Tp::Install['elasticsearch'],
     }
   }
 }
