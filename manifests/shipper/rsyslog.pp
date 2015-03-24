@@ -25,7 +25,7 @@ class stack_logstash::shipper::rsyslog (
           repos       => ' ',
           release     => "${::lsbdistcodename}/",
           include_src => false,
-          key         => 'AEF0CF8E',
+          key         => '1362E120FE08D280780169DC894ECF17AEF0CF8E',
           before         => Tp::Install['rsyslog'],
         }
       }
