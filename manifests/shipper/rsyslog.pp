@@ -6,7 +6,7 @@ class stack_logstash::shipper::rsyslog (
   $use_adiscom_repo          = true,
 ) {
 
-  # Rsyslog repo
+  # Rsyslog repo
   if $use_adiscom_repo == true {
     case $::operatingsystem {
       'RedHat': {
