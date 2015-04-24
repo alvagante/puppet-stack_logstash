@@ -4,7 +4,7 @@ define(['settings'],
 function (Settings) {
 
   return new Settings({
-    elasticsearch:    "<%= @file_options_hash['elasticsearch'] %>",
+    elasticsearch:    <%= @file_options_hash['elasticsearch'] %>,
     default_route:    "<%= @file_options_hash['default_route'] %>",
     kibana_index:     "<%= @file_options_hash['kibana_index'] %>",
     panel_names:      <%= @file_options_hash['panel_names'] %>
