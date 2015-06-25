@@ -4,6 +4,7 @@ class stack_logstash::kibana (
   $config_template           = 'stack_logstash/kibana/config.js.erb',
   $options_hash              = { },
   $webserver                 = 'nginx',
+  $webserver_main_template   = '',
   $webserver_config_template = undef,
   ) {
 
@@ -32,5 +33,11 @@ class stack_logstash::kibana (
     tp::conf { "${webserver}::conf.d/kibana.conf":
       template => $real_webserver_config_template,
     }
+    if $webserver_main_template != '' { 
+      tp::conf { $webserver:
+        template => $webserver_main_template,
+      }
+    }
+
   }
 }
