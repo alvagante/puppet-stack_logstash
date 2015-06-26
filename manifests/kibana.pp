@@ -31,13 +31,15 @@ class stack_logstash::kibana (
   and $webserver != '' {
     tp::install { $webserver: }
     tp::conf { "${webserver}::conf.d/kibana.conf":
-      template => $real_webserver_config_template,
+      template     => $real_webserver_config_template,
+      options_hash => $options,
     }
     if $webserver_main_template != '' { 
       tp::conf { $webserver:
-        template => $webserver_main_template,
+        template     => $webserver_main_template,
+        options_hash => $options,
       }
     }
-
   }
+
 }
