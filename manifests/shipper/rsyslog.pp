@@ -16,7 +16,7 @@ class stack_logstash::shipper::rsyslog (
           enabled        => 1,
           gpgcheck       => 0,
           protect        => 1,
-          before         => Tp::Install['rsyslog'],
+          before         => Tp::Install3['rsyslog'],
         }
       }
       'Debian': {
@@ -26,12 +26,12 @@ class stack_logstash::shipper::rsyslog (
           release     => "${::lsbdistcodename}/",
           include_src => false,
           key         => '1362E120FE08D280780169DC894ECF17AEF0CF8E',
-          before         => Tp::Install['rsyslog'],
+          before         => Tp::Install3['rsyslog'],
         }
       }
       'Ubuntu': {
         apt::ppa { "ppa:adiscon/v${version}-stable":
-          before         => Tp::Install['rsyslog'],
+          before         => Tp::Install3['rsyslog'],
         }
       }
       default: {
