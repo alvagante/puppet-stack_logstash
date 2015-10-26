@@ -39,11 +39,11 @@ class stack_logstash::shipper::rsyslog (
     }
   }
 
-  tp::install { 'rsyslog': }
+  tp::install3 { 'rsyslog': }
 
   if $config_template
   and $config_template != '' {
-    tp::conf { 'rsyslog::00_logstash.conf':
+    tp::conf3 { 'rsyslog::00_logstash.conf':
       template => $config_template,
     }
   }

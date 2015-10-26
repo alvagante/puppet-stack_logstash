@@ -10,11 +10,11 @@ class stack_logstash::elasticsearch (
   }
   $options=merge($default_options , $options_hash)
 
-  tp::install { 'elasticsearch': }
+  tp::install3 { 'elasticsearch': }
 
   if $config_template
   and $config_template != '' {
-    tp::conf { 'elasticsearch':
+    tp::conf3 { 'elasticsearch':
       template     => $config_template,
       options_hash => $options,
     }

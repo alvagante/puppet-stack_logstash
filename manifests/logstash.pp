@@ -3,11 +3,11 @@ class stack_logstash::logstash (
   $options_hash      = { },
 ) {
 
-  tp::install { 'logstash': }
+  tp::install3 { 'logstash': }
 
   if $config_template
   and $config_template != '' {
-    tp::conf { 'logstash':
+    tp::conf3 { 'logstash':
       template => $config_template,
     }
   }
