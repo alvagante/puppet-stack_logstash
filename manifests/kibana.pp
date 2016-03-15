@@ -1,5 +1,5 @@
 class stack_logstash::kibana (
-  $version                   = '3.1.2',
+  $version                   = '4.4.2',
   $kibana_url                = "kibana.${::domain}",
   $config_template           = 'stack_logstash/kibana/config.js.erb',
   $options_hash              = { },
