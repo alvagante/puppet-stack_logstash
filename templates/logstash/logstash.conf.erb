@@ -31,8 +31,7 @@ filter {
 }
 
 output {
-  elasticsearch_http {
-    host => <%= scope.lookupvar('::stack_logstash::array_elasticsearch_server') %>
-    port => "<%= scope.lookupvar('::stack_logstash::elasticsearch_server_port') %>"
+  elasticsearch {
+    hosts => <%= scope.lookupvar('::stack_logstash::array_elasticsearch_server') %>
   }
 }
