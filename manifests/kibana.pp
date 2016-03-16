@@ -1,7 +1,7 @@
 class stack_logstash::kibana (
   $version                   = '4.4.2',
   $kibana_url                = "kibana.${::domain}",
-  $config_template           = 'stack_logstash/kibana/config.js.erb',
+  $config_template           = undef,
   $options_hash              = { },
   $webserver                 = 'nginx',
   $webserver_main_template   = '',
@@ -21,10 +21,12 @@ class stack_logstash::kibana (
     undef    => "stack_logstash/kibana/kibana.conf-${webserver}",
     default  => $webserver_config_template,
   }
-  class { '::kibana':
-    version           => $version,
-    file_template     => $config_template,
-    file_options_hash => $options,
+  tp::install3 { 'kibana': }
+  if $config_template { 
+    tp::conf3 { 'kibana':
+      template     => $config_template,
+      options_hash => $options,
+    }
   }
 
   if $webserver
